@@ -2,7 +2,7 @@ name: build.yml
 
 on: 
   push:
-  branches: [master]
+    branches: [master]
 
 env:
   AZURE_WEBAPP_NAME: 'SICI'
@@ -14,20 +14,17 @@ jobs:
     name: Construye la aplicación
     runs-on: ubuntu-latest
     steps:
-      - name: Recupera el codigo fuente
+      - name: Recupera el código fuente
         uses: actions/checkout@v4
+
       - name: Instalar .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{env.DOTNET_VERSION}}
-      - name: Instala las dependencias del proyecto
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restaurar dependencias
         run: dotnet restore
 
-      - name: publica la aplicación
-        run: dotnet publish --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PACKAGE_PATH}}'
-
-
-
-
-
+      - name: Publicar la aplicación
+        run: dotnet publish --configuration Release --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
